@@ -14,6 +14,7 @@ window.onload = function(){
       //only add a semicolon after we make all of our appends to the container
       .attr("class", "container");
 
+    //this creates a rectangle container for us
     var rectangle = container.append("rect")
       .datum(400)
       .attr("width", function(d){//this is the pass of the datum)
@@ -26,6 +27,7 @@ window.onload = function(){
       .attr("x", 50) //position from left on the x (horizontal) axis
       .attr("y", 50); //position from top on the y (vertical) axis
 
+      //the creates an array of cities and populations
       var cityPop = [
              {
                  city: 'Fresno',
@@ -45,12 +47,12 @@ window.onload = function(){
              }
          ];
 
-   //find the minimum value of the array
+   //finds the minimum value of the array
    var minPop = d3.min(cityPop, function(d){
        return d.population;
    });
 
-   //find the maximum value of the array
+   //finds the maximum value of the array
    var maxPop = d3.max(cityPop, function(d){
        return d.population;
    });
@@ -75,9 +77,9 @@ window.onload = function(){
       .range([100, 710]) //output min and max
       .domain([0, 3.1]) //input min and max
 
-    var circles = container.selectAll(".circles") //but wait--there are no circles yet!
+    var circles = container.selectAll(".circles")
       .data(cityPop) //here we feed in an array
-      .enter() //one of the great mysteries of the universe
+      .enter()
       .append("circle") //add a circle for each datum
       .attr("class", "circles") //apply a class name to all circles
       .attr("id", function(d){
@@ -93,10 +95,10 @@ window.onload = function(){
           return x(i);
       })
       .attr("cy", function(d){
-          //subtract value from 450 to "grow" circles up from the bottom instead of down from the top of the SVG
           return y(d.population);
       })
-      .style("fill", function(d, i){ //add a fill based on the color scale generator
+      .style("fill", function(d, i){
+            //add a fill based on the color scale generator
             return color(d.population);
       })
       .style("stroke", "#000"); //black circle stroke
@@ -106,7 +108,7 @@ window.onload = function(){
         .scale(y)
         .orient("left");
 
-        //create axis g element and add axis
+      //create axis g element and add axis
       var axis = container.append("g")
           .attr("class", "axis")
           .attr("transform", "translate(50, 0)")
@@ -119,6 +121,7 @@ window.onload = function(){
         .attr("y", 30)
         .text("City Populations");
 
+      //this adds labels to the circles
       var labels = container.selectAll(".labels")
          .data(cityPop)
          .enter()
@@ -134,7 +137,7 @@ window.onload = function(){
              return y(d.population) ;
          });
 
-         //first line of label
+      //first line of label
        var nameLine = labels.append("tspan")
            .attr("class", "nameLine")
            .attr("x", function(d,i){
@@ -159,6 +162,4 @@ window.onload = function(){
            .text(function(d){
                return "Pop. " + format(d.population);
            });
-
-
 };
